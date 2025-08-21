@@ -11,14 +11,26 @@ import (
 // Config holds all the configuration variables for the application.
 // We use a struct to provide type safety and easy access.
 type Config struct {
-	Port               int
-	DatabaseURL        string
+	Server   ServerConfig
+	Database DatabaseConfig
+	JWT      JWTConfig
+}
+
+type ServerConfig struct {
+	Port           string
+	Env            string
+	ScraperBaseURL string
+	UploadDir      string
+}
+
+type DatabaseConfig struct {
+	DatabaseURL string
+}
+
+type JWTConfig struct {
 	JWTSecret          string
-	ScraperBaseURL     string
 	AccessTokenMinutes int
 	RefreshTokenDays   int
-	UploadDir          string
-	Env                string
 }
 
 // LoadConfig reads configuration from environment variables and returns a Config struct.
@@ -47,11 +59,6 @@ func LoadConfig() (*Config, error) {
 		return 0, nil
 	}
 
-	port, err := getEnvAsInt("PORT")
-	if err != nil {
-		log.Fatal("PORT must be a valid integer")
-	}
-
 	accessTokenMinutes, err := getEnvAsInt("ACCESS_TOKEN_MINUTES")
 	if err != nil {
 		log.Fatal("ACCESS_TOKEN_MINUTES must be a valid integer")
@@ -63,23 +70,20 @@ func LoadConfig() (*Config, error) {
 	}
 
 	cfg := &Config{
-		Port:               port,
-		DatabaseURL:        getEnv("DATABASE_URL", ""),
-		JWTSecret:          getEnv("JWT_SECRET", ""),
-		ScraperBaseURL:     getEnv("SCRAPER_BASE_URL", ""),
-		AccessTokenMinutes: accessTokenMinutes,
-		RefreshTokenDays:   refreshTokenDays,
-		UploadDir:          getEnv("UPLOAD_DIR", "./uploads"),
-		Env:                getEnv("ENV", "development"),
-	}
-
-	// Example of a basic validation.
-	if cfg.DatabaseURL == "" {
-		log.Fatal("DATABASE_URL is not set")
-	}
-
-	if cfg.JWTSecret == "" {
-		log.Fatal("JWT_SECRET is not set")
+		Server: ServerConfig{
+			Port:           getEnv("PORT", "8080"),
+			Env:            getEnv("ENV", "development"),
+			ScraperBaseURL: getEnv("SCRAPER_BASE_URL", ""),
+			UploadDir:      getEnv("UPLOAD_DIR", "./uploads"),
+		},
+		Database: DatabaseConfig{
+			DatabaseURL: getEnv("DATABASE_URL", ""),
+		},
+		JWT: JWTConfig{
+			JWTSecret:          getEnv("JWT_SECRET", ""),
+			AccessTokenMinutes: accessTokenMinutes,
+			RefreshTokenDays:   refreshTokenDays,
+		},
 	}
 
 	return cfg, nil
