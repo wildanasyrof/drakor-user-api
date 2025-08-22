@@ -19,10 +19,10 @@ RUN go build -o server ./cmd/server
 # ---- Run Stage ----
 FROM gcr.io/distroless/base-debian12 AS RUNNER
 WORKDIR /
-ENV PORT=3000 \
+ENV PORT=3001 \
     UPLOAD_DIR=/uploads
 COPY --from=builder /app/server /server
 COPY --from=builder /app/docs /docs
 VOLUME ["/uploads"]
-EXPOSE 3000
+EXPOSE 3001
 ENTRYPOINT ["/server"]
