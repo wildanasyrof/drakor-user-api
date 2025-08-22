@@ -14,7 +14,7 @@ RUN go mod download
 COPY . .
 
 # Build the binary
-RUN go build -o server ./cmd/server
+RUN go build -o server ./cmd/
 
 # ---- Run Stage ----
 FROM gcr.io/distroless/base-debian12 AS RUNNER
