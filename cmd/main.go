@@ -18,7 +18,7 @@ func main() {
 	}
 
 	di := di.InitDI(cfg)
-	router.SetupRouter(app, di)
+	router.SetupRouter(app, di, cfg)
 
 	app.Listen(":" + cfg.Server.Port)
 }

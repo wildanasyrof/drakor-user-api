@@ -8,6 +8,7 @@ import (
 	"github.com/wildanasyrof/drakor-user-api/internal/service"
 	"github.com/wildanasyrof/drakor-user-api/pkg/jwt"
 	"github.com/wildanasyrof/drakor-user-api/pkg/logger"
+	"github.com/wildanasyrof/drakor-user-api/pkg/storage"
 	"github.com/wildanasyrof/drakor-user-api/pkg/validator"
 	"gorm.io/gorm"
 )
@@ -16,9 +17,11 @@ type DI struct {
 	Logger          logger.Logger
 	db              *gorm.DB
 	JWT             jwt.JWTService
+	Storage         storage.LocalStorage
 	AuthHandler     *handler.AuthHandler
 	FavoriteHandler *handler.FavoriteHandler
 	HistoryHandler  *handler.HistoryHandler
+	UserHandler     *handler.UserHandler
 }
 
 func InitDI(cfg *config.Config) *DI {
@@ -27,6 +30,7 @@ func InitDI(cfg *config.Config) *DI {
 	db := db.Connect(cfg, logger)
 	jwt := jwt.NewJWTService(cfg)
 	validator := validator.NewValidator()
+	storage := storage.NewLocalStorage(cfg)
 
 	tokenRepo := repository.NewTokenRepository(db)
 
@@ -42,6 +46,10 @@ func InitDI(cfg *config.Config) *DI {
 	historyService := service.NewHistoryService(historyRepo, cfg, logger)
 	historyHandler := handler.NewHistoryHandler(historyService, validator)
 
+	userRepo := repository.NewUserRepository(db)
+	userService := service.NewUserService(userRepo)
+	userHandler := handler.NewUserHandler(userService, validator, storage)
+
 	return &DI{
 		Logger:          logger,
 		db:              db,
@@ -49,5 +57,7 @@ func InitDI(cfg *config.Config) *DI {
 		AuthHandler:     authHandler,
 		FavoriteHandler: favoriteHandler,
 		HistoryHandler:  historyHandler,
+		UserHandler:     userHandler,
+		Storage:         storage,
 	}
 }

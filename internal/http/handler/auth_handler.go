@@ -53,7 +53,7 @@ func (h *AuthHandler) Login(c *fiber.Ctx) error {
 
 	user, token, err := h.authService.Login(&req)
 	if err != nil {
-		return response.Error(c, fiber.StatusUnauthorized, "Login failed", err)
+		return response.Error(c, fiber.StatusUnauthorized, "Login failed", err.Error())
 	}
 
 	return response.Success(c, "User logged in successfully", fiber.Map{

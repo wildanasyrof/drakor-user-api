@@ -13,8 +13,8 @@ import (
 )
 
 type AuthService interface {
-	Register(req *dto.RegisterUserRequest) (*dto.UserResponse, *dto.TokenResponse, error)
-	Login(req *dto.LoginUserRequest) (*dto.UserResponse, *dto.TokenResponse, error)
+	Register(req *dto.RegisterUserRequest) (*entity.User, *dto.TokenResponse, error)
+	Login(req *dto.LoginUserRequest) (*entity.User, *dto.TokenResponse, error)
 	Refresh(refreshToken string) (string, error)
 	Logout(refreshToken string) error
 	LogoutAll(uid uuid.UUID) error
@@ -35,10 +35,10 @@ func NewAuthService(userRepository repository.UserRepository, tokenRepository re
 }
 
 // Login implements AuthService.
-func (a *authService) Login(req *dto.LoginUserRequest) (*dto.UserResponse, *dto.TokenResponse, error) {
+func (a *authService) Login(req *dto.LoginUserRequest) (*entity.User, *dto.TokenResponse, error) {
 	user, err := a.userRepository.GetByEmail(req.Email)
 	if err != nil {
-		return nil, nil, err
+		return nil, nil, errors.New("invalid credentials")
 	}
 
 	if err := hash.ComparePassword(user.Password, req.Password); err != nil {
@@ -50,19 +50,14 @@ func (a *authService) Login(req *dto.LoginUserRequest) (*dto.UserResponse, *dto.
 		return nil, nil, err
 	}
 
-	return &dto.UserResponse{
-			ID:       user.ID,
-			Email:    user.Email,
-			Username: user.Username,
-			ImgUrl:   user.ImgUrl,
-		}, &dto.TokenResponse{
-			AccessToken:  token.AccessToken,
-			RefreshToken: token.RefreshToken,
-		}, nil
+	return user, &dto.TokenResponse{
+		AccessToken:  token.AccessToken,
+		RefreshToken: token.RefreshToken,
+	}, nil
 }
 
 // Register implements AuthService.
-func (a *authService) Register(req *dto.RegisterUserRequest) (*dto.UserResponse, *dto.TokenResponse, error) {
+func (a *authService) Register(req *dto.RegisterUserRequest) (*entity.User, *dto.TokenResponse, error) {
 	hashedPassword := hash.HashPassword(req.Password)
 
 	user := &entity.User{
@@ -80,15 +75,10 @@ func (a *authService) Register(req *dto.RegisterUserRequest) (*dto.UserResponse,
 		return nil, nil, err
 	}
 
-	return &dto.UserResponse{
-			ID:       user.ID,
-			Email:    user.Email,
-			Username: user.Username,
-			ImgUrl:   user.ImgUrl,
-		}, &dto.TokenResponse{
-			AccessToken:  token.AccessToken,
-			RefreshToken: token.RefreshToken,
-		}, nil
+	return user, &dto.TokenResponse{
+		AccessToken:  token.AccessToken,
+		RefreshToken: token.RefreshToken,
+	}, nil
 }
 
 // Refresh implements AuthService.

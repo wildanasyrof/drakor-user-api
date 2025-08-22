@@ -5,7 +5,10 @@ import (
 	"github.com/wildanasyrof/drakor-user-api/internal/http/handler"
 )
 
-func UserRouter(r fiber.Router, h *handler.AuthHandler) {
-	r.Post("/refresh", h.Refresh)
-	r.Post("/logout", h.Logout)
+func UserRouter(r fiber.Router, a *handler.AuthHandler, u *handler.UserHandler) {
+	r.Post("/refresh", a.Refresh)
+	r.Post("/logout", a.Logout)
+	r.Get("/", u.GetProfile)
+	r.Put("/", u.UpdateProfile)
+	r.Put("/avatar", u.UpdateAvatar)
 }

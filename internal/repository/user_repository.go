@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"github.com/google/uuid"
 	"github.com/wildanasyrof/drakor-user-api/internal/domain/entity"
 	"gorm.io/gorm"
 )
@@ -9,7 +10,7 @@ type UserRepository interface {
 	Create(user *entity.User) error
 	GetByUsername(username string) (*entity.User, error)
 	GetByEmail(email string) (*entity.User, error)
-	GetByID(id string) (*entity.User, error)
+	GetByID(id uuid.UUID) (*entity.User, error)
 	Update(user *entity.User) error
 	Delete(id string) error
 }
@@ -44,7 +45,7 @@ func (r *userRepository) GetByEmail(email string) (*entity.User, error) {
 	return &user, nil
 }
 
-func (r *userRepository) GetByID(id string) (*entity.User, error) {
+func (r *userRepository) GetByID(id uuid.UUID) (*entity.User, error) {
 	var user entity.User
 	err := r.db.Where("id = ?", id).First(&user).Error
 	if err != nil {
