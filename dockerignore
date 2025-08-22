@@ -1,0 +1,34 @@
+# Binaries
+server
+main
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Build artifacts
+*.out
+dist/
+bin/
+
+# Go mod cache (handled in builder image)
+/pkg/mod
+/go/pkg
+
+# VCS
+.git
+.gitignore
+
+# IDE & OS
+.vscode
+.idea
+*.swp
+*.swo
+.DS_Store
+
+# Env (set in EasyPanel instead)
+.env
+.env.*
+
+# Uploads (mounted as a volume in production)
+uploads/
