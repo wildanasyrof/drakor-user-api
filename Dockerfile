@@ -22,7 +22,6 @@ WORKDIR /
 ENV PORT=3001 \
     UPLOAD_DIR=/uploads
 COPY --from=builder /app/server /server
-COPY --from=builder /app/docs /docs
 VOLUME ["/uploads"]
 EXPOSE 3001
 ENTRYPOINT ["/server"]
