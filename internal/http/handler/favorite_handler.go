@@ -55,7 +55,7 @@ func (h *FavoriteHandler) Delete(c *fiber.Ctx) error {
 	return response.Success(c, "Favorite deleted successfully", favorite)
 }
 
-func (h *FavoriteHandler) Get(c *fiber.Ctx) error {
+func (h *FavoriteHandler) GetAll(c *fiber.Ctx) error {
 	userID := c.Locals("user_id").(uuid.UUID)
 	favorites, err := h.favoriteService.GetByUser(userID)
 	if err != nil {

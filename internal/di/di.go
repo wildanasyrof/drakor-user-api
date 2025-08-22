@@ -18,6 +18,7 @@ type DI struct {
 	JWT             jwt.JWTService
 	AuthHandler     *handler.AuthHandler
 	FavoriteHandler *handler.FavoriteHandler
+	HistoryHandler  *handler.HistoryHandler
 }
 
 func InitDI(cfg *config.Config) *DI {
@@ -37,11 +38,16 @@ func InitDI(cfg *config.Config) *DI {
 	favoriteService := service.NewFavoriteService(favoriteRepo, cfg, logger)
 	favoriteHandler := handler.NewFavoriteHandler(favoriteService, validator)
 
+	historyRepo := repository.NewHistoryRepository(db)
+	historyService := service.NewHistoryService(historyRepo, cfg, logger)
+	historyHandler := handler.NewHistoryHandler(historyService, validator)
+
 	return &DI{
 		Logger:          logger,
 		db:              db,
 		JWT:             jwt,
 		AuthHandler:     authHandler,
 		FavoriteHandler: favoriteHandler,
+		HistoryHandler:  historyHandler,
 	}
 }

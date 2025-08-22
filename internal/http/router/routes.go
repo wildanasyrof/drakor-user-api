@@ -23,4 +23,5 @@ func SetupRouter(app *fiber.App, di *di.DI) {
 	me.Use(middleware.Auth(di.JWT, di.Logger))
 	UserRouter(me, di.AuthHandler)
 	FavoriteRouter(me.Group("/favorites"), di.FavoriteHandler)
+	HistoryRouter(me.Group("/histories"), di.HistoryHandler)
 }

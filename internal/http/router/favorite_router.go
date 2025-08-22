@@ -6,7 +6,7 @@ import (
 )
 
 func FavoriteRouter(r fiber.Router, h *handler.FavoriteHandler) {
-	r.Get("/", h.Get)
+	r.Get("/", h.GetAll)
 	r.Post("/", h.Create)
 	r.Delete("/:id", h.Delete)
 }
