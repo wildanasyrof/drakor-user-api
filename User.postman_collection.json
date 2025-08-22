@@ -1,0 +1,1151 @@
+{
+	"info": {
+		"_postman_id": "93c2a412-3fa9-4613-beca-a461b3c468ee",
+		"name": "User",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26469528",
+		"_collection_link": "https://www.postman.com/drakorid/workspace/drakor/collection/26469528-93c2a412-3fa9-4613-beca-a461b3c468ee?action=share&source=collection_link&creator=26469528"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Stores the userId in an environment variable",
+									"var jsonData = pm.response.json();",
+									"if (pm.response.code === 200) {",
+									"    pm.environment.set(\"access_token\", jsonData.data.token.access_token);",
+									"    pm.environment.set(\"refresh_token\", jsonData.data.token.refresh_token);",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"admin@admin.com\",\n    \"password\": \"admin123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"admin@admin.com\",\n    \"password\": \"admin123\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/auth/login",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"auth",
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Date",
+									"value": "Fri, 22 Aug 2025 20:17:40 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "771"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"token\": {\n            \"access_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNzUwYWQ4MTgtMDVmNS00OTZjLThhNTktNjA1Yjc5NTNkYzE3IiwiZXhwIjoxNzU1ODk0NzYwLCJpYXQiOjE3NTU4OTM4NjB9.LC5dqBd0NO7teJ_iXHjC85LYFi95tA-X_Sj_5-k2--I\",\n            \"refresh_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNzUwYWQ4MTgtMDVmNS00OTZjLThhNTktNjA1Yjc5NTNkYzE3IiwiZXhwIjoxNzU4NDg1ODYwLCJpYXQiOjE3NTU4OTM4NjB9.cmr23Yo953KaXFt91K0nqymyF2vz1oawAa9QpV_f6HM\"\n        },\n        \"user\": {\n            \"id\": \"750ad818-05f5-496c-8a59-605b7953dc17\",\n            \"username\": \"admin\",\n            \"email\": \"admin@admin.com\",\n            \"img_url\": \"https://imagedelivery.net/xE-VtsYZUS2Y8MtLMcbXAg/9cb9505a/orig\",\n            \"created_at\": \"2025-08-23T03:15:44.885703+07:00\",\n            \"updated_at\": \"2025-08-23T03:15:44.885703+07:00\"\n        }\n    },\n    \"message\": \"User logged in successfully\",\n    \"status\": \"success\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Register",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Stores the userId in an environment variable",
+									"var jsonData = pm.response.json();",
+									"if (pm.response.code === 200) {",
+									"    pm.environment.set(\"access_token\", jsonData.data.token.access_token);",
+									"    pm.environment.set(\"refresh_token\", jsonData.data.token.refresh_token);",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"example@mail.com\",\n    \"username\": \"example\",\n    \"password\": \"example123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/register",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"example@mail.com\",\n    \"username\": \"example\",\n    \"password\": \"example123\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/auth/register",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"auth",
+										"register"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "Text",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Fri, 22 Aug 2025 20:17:10 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "781"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"token\": {\n            \"access_token\": \"{{vault:json-web-token}}\",\n            \"refresh_token\": \"{{vault:json-web-token}}\"\n        },\n        \"user\": {\n            \"id\": \"b838cfd6-6f43-4e70-9d75-ba7166cc672d\",\n            \"username\": \"example\",\n            \"email\": \"example@mail.com\",\n            \"img_url\": \"https://imagedelivery.net/xE-VtsYZUS2Y8MtLMcbXAg/9cb9505a/orig\",\n            \"created_at\": \"2025-08-23T03:17:10.844044786+07:00\",\n            \"updated_at\": \"2025-08-23T03:17:10.844044786+07:00\"\n        }\n    },\n    \"message\": \"User registered successfully\",\n    \"status\": \"success\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Refresh",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Stores the userId in an environment variable",
+									"var jsonData = pm.response.json();",
+									"if (pm.response.code === 200) {",
+									"    pm.environment.set(\"access_token\", jsonData.data.access_token);",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"refresh_token\": \"{{refresh_token}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/me/refresh",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"me",
+								"refresh"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"refresh_token\": \"{{refresh_token}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/me/refresh",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"me",
+										"refresh"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Date",
+									"value": "Fri, 22 Aug 2025 20:17:53 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "281"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"access_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNzUwYWQ4MTgtMDVmNS00OTZjLThhNTktNjA1Yjc5NTNkYzE3IiwiZXhwIjoxNzU1ODk0Nzc0LCJpYXQiOjE3NTU4OTM4NzR9.yfKBl5-ZPYeXieRujPqDHuboXA7qDakRHyyNIZDN9PI\"\n    },\n    \"message\": \"Token refreshed successfully\",\n    \"status\": \"success\"\n}"
+						},
+						{
+							"name": "Error",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"refresh_token\": \"{{refresh_tosken}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/me/refresh",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"me",
+										"refresh"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Date",
+									"value": "Fri, 22 Aug 2025 20:18:27 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "93"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": \"invalid or expired refresh token\",\n    \"message\": \"Refresh token failed\",\n    \"status\": \"error\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"refresh_token\": \"{{refresh_token}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/me/logout",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"me",
+								"logout"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"refresh_token\": \"{{refresh_token}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/me/logout",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"me",
+										"logout"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Date",
+									"value": "Fri, 22 Aug 2025 20:18:46 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "73"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": null,\n    \"message\": \"User logged out successfully\",\n    \"status\": \"success\"\n}"
+						}
+					]
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Favorites",
+			"item": [
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"drama_slug\":\"hide-and-sis-2025\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/me/favorites",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"me",
+								"favorites"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"drama_slug\":\"hide-and-sis-2025\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/me/favorites",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"me",
+										"favorites"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Date",
+									"value": "Fri, 22 Aug 2025 20:59:28 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "299"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"id\": \"b5eb607c-b20e-421e-b81f-b83568a6072f\",\n        \"user_id\": \"750ad818-05f5-496c-8a59-605b7953dc17\",\n        \"drama_slug\": \"hide-and-sis-2025\",\n        \"created_at\": \"2025-08-23T03:59:28.353040472+07:00\",\n        \"updated_at\": \"2025-08-23T03:59:28.353040472+07:00\"\n    },\n    \"message\": \"Favorite created successfully\",\n    \"status\": \"success\"\n}"
+						}
+					]
+				},
+				{
+					"name": "GetAll",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseUrl}}/me/favorites",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"me",
+								"favorites"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{baseUrl}}/me/favorites",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"me",
+										"favorites"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Date",
+									"value": "Fri, 22 Aug 2025 20:59:36 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "2576"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": [\n        {\n            \"aired\": \"Aug 16, 2025\",\n            \"country\": \"China\",\n            \"director\": [\n                \"Ko Cheng Ming\"\n            ],\n            \"duration\": \"35 min.\",\n            \"episodes\": 24,\n            \"genres\": [\n                \"Romance\"\n            ],\n            \"image\": \"https://convert.d-cdn.me/convert/aHR0cHM6Ly9hc3NldHMuZC1jZG4ubWUvaW1nLzIwMjUvMDgvNTk3LXl3ZGRxNjRmLmpwZw--/256x368/1.jpg\",\n            \"language\": null,\n            \"native_title\": \"ç\\u0081¼å¿ƒ\",\n            \"network\": [\n                \"iQiyi\"\n            ],\n            \"original_title\": \"ç\\u0081¼å¿ƒ\",\n            \"slug\": \"fall-in-you-2025\",\n            \"synopsis\": \"Qiao Yan, seorang gadis yatim piatu yang menyimpan rahasia kematian orang tuanya, jatuh cinta pada paman angkatnya, Gu Jing Yuan, yang tidak memiliki hubungan darah. Ia bersedia menikah diam-diam demi cinta, tetapi ia sangat menderita.\\nNamun, setelah perceraian, mereka menyadari bahwa pihak lain selalu mencintai dan melindungi mereka dengan sepenuh hati. Setelah mengalami krisis hidup dan mati, keduanya akhirnya bekerja sama untuk menghilangkan kabut, meraih cinta sejati, dan bersatu kembali.\",\n            \"title\": \"Fall in You (2025)\",\n            \"writer\": null\n        },\n        {\n            \"aired\": \"Jun 30, 2025 - Aug 12, 2025\",\n            \"country\": \"Thailand\",\n            \"director\": [\n                \"Tle Tawan Charuchinda\"\n            ],\n            \"duration\": \"46 min.\",\n            \"episodes\": 14,\n            \"genres\": [\n                \"Thriller\",\n                \"Mystery\",\n                \"Drama\"\n            ],\n            \"image\": \"https://convert.d-cdn.me/convert/aHR0cHM6Ly9hc3NldHMuZC1jZG4ubWUvaW1nLzIwMjUvMDcvODY3LTV2dm8zdzRmLmpwZw--/256x368/1.jpg\",\n            \"language\": null,\n            \"native_title\": \"à¸™à¹‰à¸\\u00adà¸‡à¸ªà¸²à¸§à¸«à¸²à¸¢à¸™à¸°\",\n            \"network\": [\n                \"GMM 25\"\n            ],\n            \"original_title\": \"Hide & Sis\",\n            \"slug\": \"hide-and-sis-2025\",\n            \"synopsis\": \"Chatfah, adik bungsu keluarga Bupphachinda, baru saja menerima bagian terbesar dari warisan ayahnya dan akan segera menikah. Namun, Chatfah jatuh dari lantai tertinggi sebuah rumah liburan dan disaksikan oleh ketiga kakak perempuannya yang terkejut. Ketika jasadnya menghilang, ketiga saudara perempuannya—Baibua, Chomphu, dan Picha—menjadi tersangka atas hilangnya Chatfah.\\nKakak tertua, Baibua, tenang, bijaksana, dan selalu berkorban untuk keluarganya. Kakak kedua, Chomphu, adalah seorang model percaya diri yang pacarnya dicuri Chatfah dan ditunangkan. Kakak ketiga, Putpichaya, adalah seorang desainer perhiasan dan paling dekat dengan Chatfah. Ketiganya mencari Chatfah sementara tragedi lebih lanjut menimpa mereka setelah hilangnya adik bungsu mereka.\\nKetika tidak ada orang lain yang bisa dipercaya, ketiga saudari itu harus mencoba saling percaya. Mereka kembali ke rumah masa kecil mereka untuk mencari tahu siapa dalang hilangnya Chatfah, yang kemungkinan besar adalah salah satu dari mereka.\",\n            \"title\": \"Hide And Sis (2025)\",\n            \"writer\": null\n        }\n    ],\n    \"message\": \"Favorites retrieved successfully\",\n    \"status\": \"success\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseUrl}}/me/favorites/b5eb607c-b20e-421e-b81f-b83568a6072f",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"me",
+								"favorites",
+								"b5eb607c-b20e-421e-b81f-b83568a6072f"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{baseUrl}}/me/favorites/b5eb607c-b20e-421e-b81f-b83568a6072f",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"me",
+										"favorites",
+										"b5eb607c-b20e-421e-b81f-b83568a6072f"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Date",
+									"value": "Fri, 22 Aug 2025 20:59:59 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "291"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"id\": \"b5eb607c-b20e-421e-b81f-b83568a6072f\",\n        \"user_id\": \"750ad818-05f5-496c-8a59-605b7953dc17\",\n        \"drama_slug\": \"hide-and-sis-2025\",\n        \"created_at\": \"2025-08-23T03:59:28.35304+07:00\",\n        \"updated_at\": \"2025-08-23T03:59:28.35304+07:00\"\n    },\n    \"message\": \"Favorite deleted successfully\",\n    \"status\": \"success\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "History",
+			"item": [
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"slug\": \"glass-heart-2025\",\n    \"eps\": 2,\n    \"time_watched\": 23\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/me/histories",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"me",
+								"histories"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"slug\": \"hide-and-sis-2025\",\n    \"eps\": 2,\n    \"time_watched\": 23\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/me/histories",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"me",
+										"histories"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Date",
+									"value": "Fri, 22 Aug 2025 21:04:45 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "333"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"id\": \"082c4669-5c5a-4576-80c8-2d4d31d225fe\",\n        \"user_id\": \"750ad818-05f5-496c-8a59-605b7953dc17\",\n        \"drama_slug\": \"hide-and-sis-2025\",\n        \"drama_eps\": 2,\n        \"watched_seconds\": 23,\n        \"created_at\": \"2025-08-23T04:04:45.074933579+07:00\",\n        \"updated_at\": \"2025-08-23T04:04:45.074933579+07:00\"\n    },\n    \"message\": \"History created successfully\",\n    \"status\": \"success\"\n}"
+						}
+					]
+				},
+				{
+					"name": "GetAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/me/histories",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"me",
+								"histories"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/me/histories",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"me",
+										"histories"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Date",
+									"value": "Fri, 22 Aug 2025 21:04:58 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "3714"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": [\n        {\n            \"history\": {\n                \"id\": \"746f37ce-711c-47db-bd68-517ca8a19e28\",\n                \"user_id\": \"750ad818-05f5-496c-8a59-605b7953dc17\",\n                \"drama_slug\": \"learning-to-love-2025\",\n                \"drama_eps\": 2,\n                \"watched_seconds\": 23,\n                \"created_at\": \"2025-08-23T04:00:31.57079+07:00\",\n                \"updated_at\": \"2025-08-23T04:00:31.57079+07:00\"\n            },\n            \"detail\": {\n                \"aired\": \"Jul 10, 2025 - ?\",\n                \"country\": \"Japan\",\n                \"director\": [\n                    \"Nishitani Hiroshi\"\n                ],\n                \"duration\": \"54 min.\",\n                \"episodes\": 4,\n                \"genres\": [\n                    \"Romance\"\n                ],\n                \"image\": \"https://convert.d-cdn.me/convert/aHR0cHM6Ly9hc3NldHMuZC1jZG4ubWUvaW1nLzIwMjUvMDgvNTUtbHd3Mm54NGYuanBn/256x368/1.jpg\",\n                \"language\": null,\n                \"native_title\": \"æ„›ã\\u0081®ã€\\u0081ã\\u0081Œã\\u0081£ã\\u0081“ã\\u0081†ã€‚\",\n                \"network\": [\n                    \"Fuji TV\"\n                ],\n                \"original_title\": \"Learning to Love\",\n                \"slug\": \"learning-to-love-2025\",\n                \"synopsis\": \"Ini adalah kisah cinta tentang Ogawa Manami, seorang guru SMA yang tumbuh dalam keluarga yang ketat, dan Kaworu, seorang tuan rumah yang tidak pandai membaca dan menulis, dalam perjalanan mereka mencari cinta meskipun menghadapi rintangan. Manami dipaksa menikah dengan pria yang dikenalnya melalui perkenalan ayahnya, dan SMA tempatnya bekerja juga menghadapi krisis keruntuhan kelas. Ia menghabiskan hari-harinya meratapi, \\\"Aku ingin kabur dari tempat ini.\\\"\\nSuatu hari, ia menerima telepon yang mengatakan bahwa seorang siswi telah ditipu oleh tuan rumah yang tidak bermoral, dan ia bergegas ke toko untuk menjemput siswi tersebut, di mana ia bertemu Kaworu. Kaworu harus menandatangani surat perjanjian untuk tidak menghubungi siswi tersebut di masa mendatang, dan Manami mengetahui masalah yang selama ini ia rahasiakan dari siapa pun. Dalam drama tersebut, keduanya perlahan menjadi lebih dekat melalui \\\"les privat\\\" rahasia Manami, di mana ia mengajari Kaworu tentang bahasa dan masyarakat.\",\n                \"title\": \"Learning to Love (2025)\",\n                \"writer\": [\n                    \"Inoue Yumiko\"\n                ]\n            }\n        },\n        {\n            \"history\": {\n                \"id\": \"082c4669-5c5a-4576-80c8-2d4d31d225fe\",\n                \"user_id\": \"750ad818-05f5-496c-8a59-605b7953dc17\",\n                \"drama_slug\": \"hide-and-sis-2025\",\n                \"drama_eps\": 2,\n                \"watched_seconds\": 23,\n                \"created_at\": \"2025-08-23T04:04:45.074933+07:00\",\n                \"updated_at\": \"2025-08-23T04:04:45.074933+07:00\"\n            },\n            \"detail\": {\n                \"aired\": \"Jun 30, 2025 - Aug 12, 2025\",\n                \"country\": \"Thailand\",\n                \"director\": [\n                    \"Tle Tawan Charuchinda\"\n                ],\n                \"duration\": \"46 min.\",\n                \"episodes\": 14,\n                \"genres\": [\n                    \"Thriller\",\n                    \"Mystery\",\n                    \"Drama\"\n                ],\n                \"image\": \"https://convert.d-cdn.me/convert/aHR0cHM6Ly9hc3NldHMuZC1jZG4ubWUvaW1nLzIwMjUvMDcvODY3LTV2dm8zdzRmLmpwZw--/256x368/1.jpg\",\n                \"language\": null,\n                \"native_title\": \"à¸™à¹‰à¸\\u00adà¸‡à¸ªà¸²à¸§à¸«à¸²à¸¢à¸™à¸°\",\n                \"network\": [\n                    \"GMM 25\"\n                ],\n                \"original_title\": \"Hide & Sis\",\n                \"slug\": \"hide-and-sis-2025\",\n                \"synopsis\": \"Chatfah, adik bungsu keluarga Bupphachinda, baru saja menerima bagian terbesar dari warisan ayahnya dan akan segera menikah. Namun, Chatfah jatuh dari lantai tertinggi sebuah rumah liburan dan disaksikan oleh ketiga kakak perempuannya yang terkejut. Ketika jasadnya menghilang, ketiga saudara perempuannya—Baibua, Chomphu, dan Picha—menjadi tersangka atas hilangnya Chatfah.\\nKakak tertua, Baibua, tenang, bijaksana, dan selalu berkorban untuk keluarganya. Kakak kedua, Chomphu, adalah seorang model percaya diri yang pacarnya dicuri Chatfah dan ditunangkan. Kakak ketiga, Putpichaya, adalah seorang desainer perhiasan dan paling dekat dengan Chatfah. Ketiganya mencari Chatfah sementara tragedi lebih lanjut menimpa mereka setelah hilangnya adik bungsu mereka.\\nKetika tidak ada orang lain yang bisa dipercaya, ketiga saudari itu harus mencoba saling percaya. Mereka kembali ke rumah masa kecil mereka untuk mencari tahu siapa dalang hilangnya Chatfah, yang kemungkinan besar adalah salah satu dari mereka.\",\n                \"title\": \"Hide And Sis (2025)\",\n                \"writer\": null\n            }\n        }\n    ],\n    \"message\": \"Histories retrieved successfully\",\n    \"status\": \"success\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/me/histories/746f37ce-711c-47db-bd68-517ca8a19e28",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"me",
+								"histories",
+								"746f37ce-711c-47db-bd68-517ca8a19e28"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/me/histories/082c4669-5c5a-4576-80c8-2d4d31d225fe",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"me",
+										"histories",
+										"082c4669-5c5a-4576-80c8-2d4d31d225fe"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Date",
+									"value": "Fri, 22 Aug 2025 21:06:31 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "327"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"id\": \"082c4669-5c5a-4576-80c8-2d4d31d225fe\",\n        \"user_id\": \"750ad818-05f5-496c-8a59-605b7953dc17\",\n        \"drama_slug\": \"hide-and-sis-2025\",\n        \"drama_eps\": 2,\n        \"watched_seconds\": 23,\n        \"created_at\": \"2025-08-23T04:04:45.074933+07:00\",\n        \"updated_at\": \"2025-08-23T04:04:45.074933+07:00\"\n    },\n    \"message\": \"History deleted successfully\",\n    \"status\": \"success\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"eps\": 4,\n    \"time_watched\": 222\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/me/histories/5e91d96c-8731-4944-9e67-43608d19c0eb",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"me",
+								"histories",
+								"5e91d96c-8731-4944-9e67-43608d19c0eb"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"eps\": 2,\n\t\"time_watched\": 222\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/me/histories/c46e2b67-c375-4d2b-92b7-7ca9080c2211",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"me",
+										"histories",
+										"c46e2b67-c375-4d2b-92b7-7ca9080c2211"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Date",
+									"value": "Fri, 22 Aug 2025 21:07:18 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "328"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"id\": \"c46e2b67-c375-4d2b-92b7-7ca9080c2211\",\n        \"user_id\": \"750ad818-05f5-496c-8a59-605b7953dc17\",\n        \"drama_slug\": \"hide-and-sis-2025\",\n        \"drama_eps\": 2,\n        \"watched_seconds\": 222,\n        \"created_at\": \"2025-08-23T04:06:58.118721+07:00\",\n        \"updated_at\": \"2025-08-23T04:06:58.118721+07:00\"\n    },\n    \"message\": \"History updated successfully\",\n    \"status\": \"success\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Profile",
+			"item": [
+				{
+					"name": "Me",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/me",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"me"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/me",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"me"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Date",
+									"value": "Fri, 22 Aug 2025 21:07:45 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "337"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"id\": \"750ad818-05f5-496c-8a59-605b7953dc17\",\n        \"username\": \"admin\",\n        \"email\": \"admin@admin.com\",\n        \"img_url\": \"https://imagedelivery.net/xE-VtsYZUS2Y8MtLMcbXAg/9cb9505a/orig\",\n        \"created_at\": \"2025-08-23T03:15:44.885703+07:00\",\n        \"updated_at\": \"2025-08-23T03:15:44.885703+07:00\"\n    },\n    \"message\": \"User profile retrieved successfully\",\n    \"status\": \"success\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"admin@admin.com\",\n  \"password\": \"admin123\",\n  \"username\": \"updateadmin\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/me",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"me"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"email\": \"admin@admin.com\",\n  \"password\": \"admin123\",\n  \"username\": \"updateadmin\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/me",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"me"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Date",
+									"value": "Fri, 22 Aug 2025 21:18:07 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "342"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"id\": \"750ad818-05f5-496c-8a59-605b7953dc17\",\n        \"username\": \"updateadmin\",\n        \"email\": \"admin@admin.com\",\n        \"img_url\": \"https://imagedelivery.net/xE-VtsYZUS2Y8MtLMcbXAg/9cb9505a/orig\",\n        \"created_at\": \"2025-08-23T03:15:44.885703+07:00\",\n        \"updated_at\": \"2025-08-23T04:18:06.9768596+07:00\"\n    },\n    \"message\": \"User profile updated successfully\",\n    \"status\": \"success\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Update Avatar",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/home/vee/Downloads/ft-wall.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/me/avatar",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"me",
+								"avatar"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "file",
+											"type": "file",
+											"src": "/home/vee/Downloads/ft-wall.jpg"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{baseUrl}}/me/avatar",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"me",
+										"avatar"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Date",
+									"value": "Fri, 22 Aug 2025 21:19:59 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "325"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"id\": \"750ad818-05f5-496c-8a59-605b7953dc17\",\n        \"username\": \"updateadmin\",\n        \"email\": \"admin@admin.com\",\n        \"img_url\": \"/uploads/f9d19c04-77f8-49a0-af70-430536ffb15c.jpg\",\n        \"created_at\": \"2025-08-23T03:15:44.885703+07:00\",\n        \"updated_at\": \"2025-08-23T04:19:59.332322239+07:00\"\n    },\n    \"message\": \"Avatar updated successfully\",\n    \"status\": \"success\"\n}"
+						}
+					]
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{access_token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

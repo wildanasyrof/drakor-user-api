@@ -1,6 +1,8 @@
 package handler
 
 import (
+	"strings"
+
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
 	"github.com/wildanasyrof/drakor-user-api/internal/domain/dto"
@@ -34,9 +36,14 @@ func (h *HistoryHandler) Create(c *fiber.Ctx) error {
 	userID := c.Locals("user_id").(uuid.UUID)
 	history, err := h.historyService.Create(userID, &req)
 	if err != nil {
-		return response.Error(c, fiber.StatusInternalServerError, "Failed to create history", err)
+		errMsg := err.Error()
+
+		if strings.Contains(errMsg, "23505") {
+			return response.Error(c, fiber.StatusConflict, "History already exists", errMsg)
+		}
+		return response.Error(c, fiber.StatusInternalServerError, "Failed to create history", errMsg)
 	}
-	return response.Success(c, "History created successfully", history)
+	return response.Success(c, "History created successfully", history, fiber.StatusCreated)
 }
 
 func (h *HistoryHandler) Delete(c *fiber.Ctx) error {
@@ -48,7 +55,7 @@ func (h *HistoryHandler) Delete(c *fiber.Ctx) error {
 	userID := c.Locals("user_id").(uuid.UUID)
 	history, err := h.historyService.Delete(userID, historyID)
 	if err != nil {
-		return response.Error(c, fiber.StatusInternalServerError, "Failed to delete history", err.Error())
+		return response.Error(c, fiber.StatusNotFound, "Failed to delete history", err.Error())
 	}
 
 	return response.Success(c, "History deleted successfully", history)

@@ -1,6 +1,8 @@
 package handler
 
 import (
+	"strings"
+
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
 	"github.com/wildanasyrof/drakor-user-api/internal/domain/dto"
@@ -24,7 +26,7 @@ func NewFavoriteHandler(favoriteService service.FavoriteService, validator valid
 func (h *FavoriteHandler) Create(c *fiber.Ctx) error {
 	var req dto.FavoriteRequest
 	if err := c.BodyParser(&req); err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid request body"})
+		return response.Error(c, fiber.StatusBadRequest, "Invalid request body", err.Error())
 	}
 
 	if err := h.validator.ValidateBody(req); err != nil {
@@ -34,10 +36,16 @@ func (h *FavoriteHandler) Create(c *fiber.Ctx) error {
 	userID := c.Locals("user_id").(uuid.UUID)
 	favorite, err := h.favoriteService.Create(userID, &req)
 	if err != nil {
-		return response.Error(c, fiber.StatusInternalServerError, "Failed to create favorite", err)
+		errMsg := err.Error()
+
+		if strings.Contains(errMsg, "23505") {
+			// Unique constraint violation
+			return response.Error(c, fiber.StatusConflict, "Favorite already exists", errMsg)
+		}
+		return response.Error(c, fiber.StatusInternalServerError, "Failed to create favorite", err.Error())
 	}
 
-	return response.Success(c, "Favorite created successfully", favorite)
+	return response.Success(c, "Favorite created successfully", favorite, fiber.StatusCreated)
 }
 
 func (h *FavoriteHandler) Delete(c *fiber.Ctx) error {
@@ -49,7 +57,7 @@ func (h *FavoriteHandler) Delete(c *fiber.Ctx) error {
 	userID := c.Locals("user_id").(uuid.UUID)
 	favorite, err := h.favoriteService.Delete(userID, favoriteID)
 	if err != nil {
-		return response.Error(c, fiber.StatusInternalServerError, "Failed to delete favorite", err.Error())
+		return response.Error(c, fiber.StatusNotFound, "Failed to delete favorite", err.Error())
 	}
 
 	return response.Success(c, "Favorite deleted successfully", favorite)

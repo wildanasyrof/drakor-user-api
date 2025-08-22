@@ -2,6 +2,7 @@ package service
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"net/http"
 	"time"
@@ -56,7 +57,7 @@ func (h *historyService) Create(userID uuid.UUID, req *dto.HistoryRequest) (*ent
 func (h *historyService) Delete(userID uuid.UUID, historyID uuid.UUID) (*entity.History, error) {
 	history, err := h.historyRepo.GetByID(userID, historyID)
 	if err != nil {
-		return nil, err
+		return nil, errors.New("history not found")
 	}
 
 	if err := h.historyRepo.DeleteByID(history.ID); err != nil {

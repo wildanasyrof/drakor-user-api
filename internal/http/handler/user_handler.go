@@ -2,6 +2,7 @@ package handler
 
 import (
 	"path/filepath"
+	"strings"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
@@ -48,6 +49,22 @@ func (h *UserHandler) UpdateProfile(c *fiber.Ctx) error {
 	userID := c.Locals("user_id").(uuid.UUID)
 	user, err := h.userService.Update(userID, &req)
 	if err != nil {
+		errMsg := err.Error()
+
+		if strings.Contains(errMsg, "idx_users_email") {
+			return response.Error(c, fiber.StatusConflict, "Failed to update user profile", fiber.Map{
+				"message": "Email already exists",
+				"field":   "email",
+			})
+		}
+
+		if strings.Contains(errMsg, "idx_users_username") {
+			return response.Error(c, fiber.StatusConflict, "Failed to update user profile", fiber.Map{
+				"message": "Username already exists",
+				"field":   "username",
+			})
+		}
+
 		return response.Error(c, fiber.StatusInternalServerError, "Failed to update user profile", err)
 	}
 	return response.Success(c, "User profile updated successfully", user)

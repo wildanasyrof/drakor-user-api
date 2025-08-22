@@ -21,7 +21,7 @@ func Auth(jwtSvc jwtpkg.JWTService, log logger.Logger) fiber.Handler {
 		tokenStr := strings.TrimPrefix(auth, "Bearer ")
 		userIDStr, err := jwtSvc.ValidateToken(tokenStr) // returns user id as string (e.g., JWT sub)
 		if err != nil {
-			return response.Error(c, fiber.StatusUnauthorized, "Invalid token", err)
+			return response.Error(c, fiber.StatusUnauthorized, "invalid or expired refresh token", nil)
 		}
 
 		// Parse to UUID once, here.

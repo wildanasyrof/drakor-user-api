@@ -1,6 +1,8 @@
 package handler
 
 import (
+	"strings"
+
 	"github.com/gofiber/fiber/v2"
 	"github.com/wildanasyrof/drakor-user-api/internal/domain/dto"
 	"github.com/wildanasyrof/drakor-user-api/internal/service"
@@ -23,7 +25,7 @@ func NewAuthHandler(authService service.AuthService, validator validator.Validat
 func (h *AuthHandler) Register(c *fiber.Ctx) error {
 	var req dto.RegisterUserRequest
 	if err := c.BodyParser(&req); err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid request body"})
+		return response.Error(c, fiber.StatusBadRequest, "Invalid request body", err.Error())
 	}
 
 	if err := h.validator.ValidateBody(req); err != nil {
@@ -32,19 +34,34 @@ func (h *AuthHandler) Register(c *fiber.Ctx) error {
 
 	user, token, err := h.authService.Register(&req)
 	if err != nil {
-		return response.Error(c, fiber.StatusInternalServerError, "Registration failed", err)
+		errMsg := err.Error()
+
+		if strings.Contains(errMsg, "idx_users_email") {
+			return response.Error(c, fiber.StatusConflict, "Registration failed", fiber.Map{
+				"message": "Email already exists",
+				"field":   "email",
+			})
+		}
+
+		if strings.Contains(errMsg, "idx_users_username") {
+			return response.Error(c, fiber.StatusConflict, "Registration failed", fiber.Map{
+				"message": "Username already exists",
+				"field":   "username",
+			})
+		}
+		return response.Error(c, fiber.StatusInternalServerError, "Registration failed", err.Error())
 	}
 
 	return response.Success(c, "User registered successfully", fiber.Map{
 		"user":  user,
 		"token": token,
-	})
+	}, fiber.StatusCreated)
 }
 
 func (h *AuthHandler) Login(c *fiber.Ctx) error {
 	var req dto.LoginUserRequest
 	if err := c.BodyParser(&req); err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid request body"})
+		return response.Error(c, fiber.StatusBadRequest, "Invalid request body", err.Error())
 	}
 
 	if err := h.validator.ValidateBody(req); err != nil {
@@ -62,30 +79,10 @@ func (h *AuthHandler) Login(c *fiber.Ctx) error {
 	})
 }
 
-func (h *AuthHandler) RefreshToken(c *fiber.Ctx) error {
-	var req dto.RefreshTokenRequest
-	if err := c.BodyParser(&req); err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid request body"})
-	}
-
-	if err := h.validator.ValidateBody(req); err != nil {
-		return response.Error(c, fiber.StatusBadRequest, "Validation error", err)
-	}
-
-	newToken, err := h.authService.Refresh(req.RefreshToken)
-	if err != nil {
-		return response.Error(c, fiber.StatusUnauthorized, "Refresh token failed", err)
-	}
-
-	return response.Success(c, "Token refreshed successfully", fiber.Map{
-		"access_token": newToken,
-	})
-}
-
 func (h *AuthHandler) Refresh(c *fiber.Ctx) error {
 	var req dto.RefreshTokenRequest
 	if err := c.BodyParser(&req); err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid request body"})
+		return response.Error(c, fiber.StatusBadRequest, "Invalid request body", err.Error())
 	}
 
 	if err := h.validator.ValidateBody(req); err != nil {
@@ -105,7 +102,7 @@ func (h *AuthHandler) Refresh(c *fiber.Ctx) error {
 func (h *AuthHandler) Logout(c *fiber.Ctx) error {
 	var req dto.LogoutUserRequest
 	if err := c.BodyParser(&req); err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid request body"})
+		return response.Error(c, fiber.StatusBadRequest, "Invalid request body", err.Error())
 	}
 
 	if err := h.validator.ValidateBody(req); err != nil {
