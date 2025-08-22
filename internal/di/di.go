@@ -13,10 +13,11 @@ import (
 )
 
 type DI struct {
-	logger      logger.Logger
-	db          *gorm.DB
-	JWT         jwt.JWTService
-	AuthHandler *handler.AuthHandler
+	Logger          logger.Logger
+	db              *gorm.DB
+	JWT             jwt.JWTService
+	AuthHandler     *handler.AuthHandler
+	FavoriteHandler *handler.FavoriteHandler
 }
 
 func InitDI(cfg *config.Config) *DI {
@@ -32,10 +33,15 @@ func InitDI(cfg *config.Config) *DI {
 	authService := service.NewAuthService(authRepo, tokenRepo, jwt)
 	authHandler := handler.NewAuthHandler(authService, validator)
 
+	favoriteRepo := repository.NewFavoriteRepository(db)
+	favoriteService := service.NewFavoriteService(favoriteRepo, cfg, logger)
+	favoriteHandler := handler.NewFavoriteHandler(favoriteService, validator)
+
 	return &DI{
-		logger:      logger,
-		db:          db,
-		JWT:         jwt,
-		AuthHandler: authHandler,
+		Logger:          logger,
+		db:              db,
+		JWT:             jwt,
+		AuthHandler:     authHandler,
+		FavoriteHandler: favoriteHandler,
 	}
 }

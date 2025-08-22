@@ -5,11 +5,13 @@ import (
 	"strings"
 
 	"github.com/gofiber/fiber/v2"
-	jwtpkg "github.com/wildanasyrof/drakor-user-api/pkg/jwt" // alias to avoid name clashes
+	"github.com/google/uuid"
+	jwtpkg "github.com/wildanasyrof/drakor-user-api/pkg/jwt"
+	"github.com/wildanasyrof/drakor-user-api/pkg/logger"
 	"github.com/wildanasyrof/drakor-user-api/pkg/response"
 )
 
-func Auth(jwtSvc jwtpkg.JWTService) fiber.Handler {
+func Auth(jwtSvc jwtpkg.JWTService, log logger.Logger) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		auth := c.Get("Authorization")
 		if auth == "" || !strings.HasPrefix(auth, "Bearer ") {
@@ -17,12 +19,18 @@ func Auth(jwtSvc jwtpkg.JWTService) fiber.Handler {
 		}
 
 		tokenStr := strings.TrimPrefix(auth, "Bearer ")
-		userID, err := jwtSvc.ValidateToken(tokenStr)
+		userIDStr, err := jwtSvc.ValidateToken(tokenStr) // returns user id as string (e.g., JWT sub)
 		if err != nil {
 			return response.Error(c, fiber.StatusUnauthorized, "Invalid token", err)
 		}
 
-		// Stash the uid for handlers/services
+		// Parse to UUID once, here.
+		userID, err := uuid.Parse(userIDStr)
+		if err != nil {
+			return response.Error(c, fiber.StatusUnauthorized, "User ID in token is not a valid UUID", nil)
+		}
+
+		// Stash the typed UUID for handlers/services
 		c.Locals("user_id", userID)
 		return c.Next()
 	}

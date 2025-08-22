@@ -15,7 +15,7 @@ type Favorite struct {
 	UpdatedAt time.Time `json:"updated_at" gorm:"autoUpdateTime"`
 
 	// Optional relation; creates FK with ON DELETE CASCADE:
-	User User `gorm:"foreignKey:UserID;references:ID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE"`
+	User User `json:"-" gorm:"foreignKey:UserID;references:ID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE"`
 }
 
 func (f *Favorite) BeforeCreate(tx *gorm.DB) (err error) {
