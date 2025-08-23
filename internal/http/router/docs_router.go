@@ -6,7 +6,7 @@ import (
 
 func DocsRouter(r fiber.Router) {
 	// Serve the raw YAML file from disk
-	r.Static("/openapi.yaml", "./openapi.yaml")
+	r.Static("/openapi.yaml", "/openapi.yaml")
 
 	// ReDoc
 	r.Get("/docs", func(c *fiber.Ctx) error {
