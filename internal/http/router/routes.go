@@ -13,6 +13,8 @@ func SetupRouter(app *fiber.App, di *di.DI, cfg *config.Config) {
 
 	app.Static("/uploads", cfg.Server.UploadDir)
 
+	DocsRouter(app)
+
 	app.Get("/", func(c *fiber.Ctx) error {
 		return c.SendString("Welcome to the user api!")
 	})

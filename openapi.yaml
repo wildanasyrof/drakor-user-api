@@ -1,0 +1,1186 @@
+openapi: 3.0.3
+info:
+  title: User API for drakorid
+  version: 1.0.0
+  description: User API for Drama API scrapping from drakorid, the purpose is to manage user watch history, favorites, etc.
+servers:
+- url: '{baseUrl}'
+  variables:
+    baseUrl:
+      default: https://api-user.wldnasyrf.my.id/
+      description: Base URL for the API
+paths:
+  /auth/login:
+    post:
+      tags:
+      - Auth
+      summary: Login
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      token:
+                        type: object
+                        properties:
+                          access_token:
+                            type: string
+                          refresh_token:
+                            type: string
+                        required:
+                        - access_token
+                        - refresh_token
+                      user:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                          username:
+                            type: string
+                          email:
+                            type: string
+                          img_url:
+                            type: string
+                          created_at:
+                            type: string
+                          updated_at:
+                            type: string
+                        required:
+                        - id
+                        - username
+                        - email
+                        - img_url
+                        - created_at
+                        - updated_at
+                    required:
+                    - token
+                    - user
+                  message:
+                    type: string
+                  status:
+                    type: string
+                required:
+                - data
+                - message
+                - status
+              example:
+                data:
+                  token:
+                    access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNzUwYWQ4MTgtMDVmNS00OTZjLThhNTktNjA1Yjc5NTNkYzE3IiwiZXhwIjoxNzU1ODk0NzYwLCJpYXQiOjE3NTU4OTM4NjB9.LC5dqBd0NO7teJ_iXHjC85LYFi95tA-X_Sj_5-k2--I
+                    refresh_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNzUwYWQ4MTgtMDVmNS00OTZjLThhNTktNjA1Yjc5NTNkYzE3IiwiZXhwIjoxNzU4NDg1ODYwLCJpYXQiOjE3NTU4OTM4NjB9.cmr23Yo953KaXFt91K0nqymyF2vz1oawAa9QpV_f6HM
+                  user:
+                    id: 750ad818-05f5-496c-8a59-605b7953dc17
+                    username: admin
+                    email: admin@admin.com
+                    img_url: https://imagedelivery.net/xE-VtsYZUS2Y8MtLMcbXAg/9cb9505a/orig
+                    created_at: '2025-08-23T03:15:44.885703+07:00'
+                    updated_at: '2025-08-23T03:15:44.885703+07:00'
+                message: User logged in successfully
+                status: success
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+              required:
+              - email
+              - password
+            example:
+              email: admin@admin.com
+              password: admin123
+  /auth/register:
+    post:
+      tags:
+      - Auth
+      summary: Register
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      token:
+                        type: object
+                        properties:
+                          access_token:
+                            type: string
+                          refresh_token:
+                            type: string
+                        required:
+                        - access_token
+                        - refresh_token
+                      user:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                          username:
+                            type: string
+                          email:
+                            type: string
+                          img_url:
+                            type: string
+                          created_at:
+                            type: string
+                          updated_at:
+                            type: string
+                        required:
+                        - id
+                        - username
+                        - email
+                        - img_url
+                        - created_at
+                        - updated_at
+                    required:
+                    - token
+                    - user
+                  message:
+                    type: string
+                  status:
+                    type: string
+                required:
+                - data
+                - message
+                - status
+              example:
+                data:
+                  token:
+                    access_token: '{{vault:json-web-token}}'
+                    refresh_token: '{{vault:json-web-token}}'
+                  user:
+                    id: b838cfd6-6f43-4e70-9d75-ba7166cc672d
+                    username: example
+                    email: example@mail.com
+                    img_url: https://imagedelivery.net/xE-VtsYZUS2Y8MtLMcbXAg/9cb9505a/orig
+                    created_at: '2025-08-23T03:17:10.844044786+07:00'
+                    updated_at: '2025-08-23T03:17:10.844044786+07:00'
+                message: User registered successfully
+                status: success
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                username:
+                  type: string
+                password:
+                  type: string
+              required:
+              - email
+              - username
+              - password
+            example:
+              email: example@mail.com
+              username: example
+              password: example123
+  /me/refresh:
+    post:
+      tags:
+      - Auth
+      summary: Refresh
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      access_token:
+                        type: string
+                    required:
+                    - access_token
+                  message:
+                    type: string
+                  status:
+                    type: string
+                required:
+                - data
+                - message
+                - status
+              example:
+                data:
+                  access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNzUwYWQ4MTgtMDVmNS00OTZjLThhNTktNjA1Yjc5NTNkYzE3IiwiZXhwIjoxNzU1ODk0Nzc0LCJpYXQiOjE3NTU4OTM4NzR9.yfKBl5-ZPYeXieRujPqDHuboXA7qDakRHyyNIZDN9PI
+                message: Token refreshed successfully
+                status: success
+        '401':
+          description: Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: string
+                  message:
+                    type: string
+                  status:
+                    type: string
+                required:
+                - data
+                - message
+                - status
+              example:
+                data: invalid or expired refresh token
+                message: Refresh token failed
+                status: error
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                refresh_token:
+                  type: string
+              required:
+              - refresh_token
+            example:
+              refresh_token: '{{refresh_token}}'
+  /me/logout:
+    post:
+      tags:
+      - Auth
+      summary: Logout
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    nullable: true
+                  message:
+                    type: string
+                  status:
+                    type: string
+                required:
+                - data
+                - message
+                - status
+              example:
+                data: null
+                message: User logged out successfully
+                status: success
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                refresh_token:
+                  type: string
+              required:
+              - refresh_token
+            example:
+              refresh_token: '{{refresh_token}}'
+  /me/favorites:
+    post:
+      tags:
+      - Favorites
+      summary: Create
+      responses:
+        '201':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      user_id:
+                        type: string
+                      drama_slug:
+                        type: string
+                      created_at:
+                        type: string
+                      updated_at:
+                        type: string
+                    required:
+                    - id
+                    - user_id
+                    - drama_slug
+                    - created_at
+                    - updated_at
+                  message:
+                    type: string
+                  status:
+                    type: string
+                required:
+                - data
+                - message
+                - status
+              example:
+                data:
+                  id: b5eb607c-b20e-421e-b81f-b83568a6072f
+                  user_id: 750ad818-05f5-496c-8a59-605b7953dc17
+                  drama_slug: hide-and-sis-2025
+                  created_at: '2025-08-23T03:59:28.353040472+07:00'
+                  updated_at: '2025-08-23T03:59:28.353040472+07:00'
+                message: Favorite created successfully
+                status: success
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                drama_slug:
+                  type: string
+              required:
+              - drama_slug
+            example:
+              drama_slug: hide-and-sis-2025
+    get:
+      tags:
+      - Favorites
+      summary: GetAll
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        aired:
+                          type: string
+                        country:
+                          type: string
+                        director:
+                          type: array
+                          items:
+                            type: string
+                        duration:
+                          type: string
+                        episodes:
+                          type: integer
+                        genres:
+                          type: array
+                          items:
+                            type: string
+                        image:
+                          type: string
+                        language:
+                          nullable: true
+                        native_title:
+                          type: string
+                        network:
+                          type: array
+                          items:
+                            type: string
+                        original_title:
+                          type: string
+                        slug:
+                          type: string
+                        synopsis:
+                          type: string
+                        title:
+                          type: string
+                        writer:
+                          nullable: true
+                      required:
+                      - aired
+                      - country
+                      - director
+                      - duration
+                      - episodes
+                      - genres
+                      - image
+                      - language
+                      - native_title
+                      - network
+                      - original_title
+                      - slug
+                      - synopsis
+                      - title
+                      - writer
+                  message:
+                    type: string
+                  status:
+                    type: string
+                required:
+                - data
+                - message
+                - status
+              example:
+                data:
+                - aired: Aug 16, 2025
+                  country: China
+                  director:
+                  - Ko Cheng Ming
+                  duration: 35 min.
+                  episodes: 24
+                  genres:
+                  - Romance
+                  image: https://convert.d-cdn.me/convert/aHR0cHM6Ly9hc3NldHMuZC1jZG4ubWUvaW1nLzIwMjUvMDgvNTk3LXl3ZGRxNjRmLmpwZw--/256x368/1.jpg
+                  language: null
+                  native_title: "ç\x81¼å¿ƒ"
+                  network:
+                  - iQiyi
+                  original_title: "ç\x81¼å¿ƒ"
+                  slug: fall-in-you-2025
+                  synopsis: 'Qiao Yan, seorang gadis yatim piatu yang menyimpan rahasia
+                    kematian orang tuanya, jatuh cinta pada paman angkatnya, Gu Jing
+                    Yuan, yang tidak memiliki hubungan darah. Ia bersedia menikah
+                    diam-diam demi cinta, tetapi ia sangat menderita.
+
+                    Namun, setelah perceraian, mereka menyadari bahwa pihak lain selalu
+                    mencintai dan melindungi mereka dengan sepenuh hati. Setelah mengalami
+                    krisis hidup dan mati, keduanya akhirnya bekerja sama untuk menghilangkan
+                    kabut, meraih cinta sejati, dan bersatu kembali.'
+                  title: Fall in You (2025)
+                  writer: null
+                - aired: Jun 30, 2025 - Aug 12, 2025
+                  country: Thailand
+                  director:
+                  - Tle Tawan Charuchinda
+                  duration: 46 min.
+                  episodes: 14
+                  genres:
+                  - Thriller
+                  - Mystery
+                  - Drama
+                  image: https://convert.d-cdn.me/convert/aHR0cHM6Ly9hc3NldHMuZC1jZG4ubWUvaW1nLzIwMjUvMDcvODY3LTV2dm8zdzRmLmpwZw--/256x368/1.jpg
+                  language: null
+                  native_title: à¸™à¹‰à¸­à¸‡à¸ªà¸²à¸§à¸«à¸²à¸¢à¸™à¸°
+                  network:
+                  - GMM 25
+                  original_title: Hide & Sis
+                  slug: hide-and-sis-2025
+                  synopsis: 'Chatfah, adik bungsu keluarga Bupphachinda, baru saja
+                    menerima bagian terbesar dari warisan ayahnya dan akan segera
+                    menikah. Namun, Chatfah jatuh dari lantai tertinggi sebuah rumah
+                    liburan dan disaksikan oleh ketiga kakak perempuannya yang terkejut.
+                    Ketika jasadnya menghilang, ketiga saudara perempuannya—Baibua,
+                    Chomphu, dan Picha—menjadi tersangka atas hilangnya Chatfah.
+
+                    Kakak tertua, Baibua, tenang, bijaksana, dan selalu berkorban
+                    untuk keluarganya. Kakak kedua, Chomphu, adalah seorang model
+                    percaya diri yang pacarnya dicuri Chatfah dan ditunangkan. Kakak
+                    ketiga, Putpichaya, adalah seorang desainer perhiasan dan paling
+                    dekat dengan Chatfah. Ketiganya mencari Chatfah sementara tragedi
+                    lebih lanjut menimpa mereka setelah hilangnya adik bungsu mereka.
+
+                    Ketika tidak ada orang lain yang bisa dipercaya, ketiga saudari
+                    itu harus mencoba saling percaya. Mereka kembali ke rumah masa
+                    kecil mereka untuk mencari tahu siapa dalang hilangnya Chatfah,
+                    yang kemungkinan besar adalah salah satu dari mereka.'
+                  title: Hide And Sis (2025)
+                  writer: null
+                message: Favorites retrieved successfully
+                status: success
+  /me/favorites/{id}:
+    delete:
+      tags:
+      - Favorites
+      summary: Delete
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      user_id:
+                        type: string
+                      drama_slug:
+                        type: string
+                      created_at:
+                        type: string
+                      updated_at:
+                        type: string
+                    required:
+                    - id
+                    - user_id
+                    - drama_slug
+                    - created_at
+                    - updated_at
+                  message:
+                    type: string
+                  status:
+                    type: string
+                required:
+                - data
+                - message
+                - status
+              example:
+                data:
+                  id: b5eb607c-b20e-421e-b81f-b83568a6072f
+                  user_id: 750ad818-05f5-496c-8a59-605b7953dc17
+                  drama_slug: hide-and-sis-2025
+                  created_at: '2025-08-23T03:59:28.35304+07:00'
+                  updated_at: '2025-08-23T03:59:28.35304+07:00'
+                message: Favorite deleted successfully
+                status: success
+    parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: string
+      description: 'Path parameter: id'
+  /me/histories:
+    post:
+      tags:
+      - History
+      summary: Create
+      responses:
+        '201':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      user_id:
+                        type: string
+                      drama_slug:
+                        type: string
+                      drama_eps:
+                        type: integer
+                      watched_seconds:
+                        type: integer
+                      created_at:
+                        type: string
+                      updated_at:
+                        type: string
+                    required:
+                    - id
+                    - user_id
+                    - drama_slug
+                    - drama_eps
+                    - watched_seconds
+                    - created_at
+                    - updated_at
+                  message:
+                    type: string
+                  status:
+                    type: string
+                required:
+                - data
+                - message
+                - status
+              example:
+                data:
+                  id: 082c4669-5c5a-4576-80c8-2d4d31d225fe
+                  user_id: 750ad818-05f5-496c-8a59-605b7953dc17
+                  drama_slug: hide-and-sis-2025
+                  drama_eps: 2
+                  watched_seconds: 23
+                  created_at: '2025-08-23T04:04:45.074933579+07:00'
+                  updated_at: '2025-08-23T04:04:45.074933579+07:00'
+                message: History created successfully
+                status: success
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                slug:
+                  type: string
+                eps:
+                  type: integer
+                time_watched:
+                  type: integer
+              required:
+              - slug
+              - eps
+              - time_watched
+            example:
+              slug: glass-heart-2025
+              eps: 2
+              time_watched: 23
+    get:
+      tags:
+      - History
+      summary: GetAll
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        history:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                            user_id:
+                              type: string
+                            drama_slug:
+                              type: string
+                            drama_eps:
+                              type: integer
+                            watched_seconds:
+                              type: integer
+                            created_at:
+                              type: string
+                            updated_at:
+                              type: string
+                          required:
+                          - id
+                          - user_id
+                          - drama_slug
+                          - drama_eps
+                          - watched_seconds
+                          - created_at
+                          - updated_at
+                        detail:
+                          type: object
+                          properties:
+                            aired:
+                              type: string
+                            country:
+                              type: string
+                            director:
+                              type: array
+                              items:
+                                type: string
+                            duration:
+                              type: string
+                            episodes:
+                              type: integer
+                            genres:
+                              type: array
+                              items:
+                                type: string
+                            image:
+                              type: string
+                            language:
+                              nullable: true
+                            native_title:
+                              type: string
+                            network:
+                              type: array
+                              items:
+                                type: string
+                            original_title:
+                              type: string
+                            slug:
+                              type: string
+                            synopsis:
+                              type: string
+                            title:
+                              type: string
+                            writer:
+                              type: array
+                              items:
+                                type: string
+                          required:
+                          - aired
+                          - country
+                          - director
+                          - duration
+                          - episodes
+                          - genres
+                          - image
+                          - language
+                          - native_title
+                          - network
+                          - original_title
+                          - slug
+                          - synopsis
+                          - title
+                          - writer
+                      required:
+                      - history
+                      - detail
+                  message:
+                    type: string
+                  status:
+                    type: string
+                required:
+                - data
+                - message
+                - status
+              example:
+                data:
+                - history:
+                    id: 746f37ce-711c-47db-bd68-517ca8a19e28
+                    user_id: 750ad818-05f5-496c-8a59-605b7953dc17
+                    drama_slug: learning-to-love-2025
+                    drama_eps: 2
+                    watched_seconds: 23
+                    created_at: '2025-08-23T04:00:31.57079+07:00'
+                    updated_at: '2025-08-23T04:00:31.57079+07:00'
+                  detail:
+                    aired: Jul 10, 2025 - ?
+                    country: Japan
+                    director:
+                    - Nishitani Hiroshi
+                    duration: 54 min.
+                    episodes: 4
+                    genres:
+                    - Romance
+                    image: https://convert.d-cdn.me/convert/aHR0cHM6Ly9hc3NldHMuZC1jZG4ubWUvaW1nLzIwMjUvMDgvNTUtbHd3Mm54NGYuanBn/256x368/1.jpg
+                    language: null
+                    native_title: "æ„›ã\x81®ã€\x81ã\x81Œã\x81£ã\x81“ã\x81†ã€‚"
+                    network:
+                    - Fuji TV
+                    original_title: Learning to Love
+                    slug: learning-to-love-2025
+                    synopsis: 'Ini adalah kisah cinta tentang Ogawa Manami, seorang
+                      guru SMA yang tumbuh dalam keluarga yang ketat, dan Kaworu,
+                      seorang tuan rumah yang tidak pandai membaca dan menulis, dalam
+                      perjalanan mereka mencari cinta meskipun menghadapi rintangan.
+                      Manami dipaksa menikah dengan pria yang dikenalnya melalui perkenalan
+                      ayahnya, dan SMA tempatnya bekerja juga menghadapi krisis keruntuhan
+                      kelas. Ia menghabiskan hari-harinya meratapi, "Aku ingin kabur
+                      dari tempat ini."
+
+                      Suatu hari, ia menerima telepon yang mengatakan bahwa seorang
+                      siswi telah ditipu oleh tuan rumah yang tidak bermoral, dan
+                      ia bergegas ke toko untuk menjemput siswi tersebut, di mana
+                      ia bertemu Kaworu. Kaworu harus menandatangani surat perjanjian
+                      untuk tidak menghubungi siswi tersebut di masa mendatang, dan
+                      Manami mengetahui masalah yang selama ini ia rahasiakan dari
+                      siapa pun. Dalam drama tersebut, keduanya perlahan menjadi lebih
+                      dekat melalui "les privat" rahasia Manami, di mana ia mengajari
+                      Kaworu tentang bahasa dan masyarakat.'
+                    title: Learning to Love (2025)
+                    writer:
+                    - Inoue Yumiko
+                - history:
+                    id: 082c4669-5c5a-4576-80c8-2d4d31d225fe
+                    user_id: 750ad818-05f5-496c-8a59-605b7953dc17
+                    drama_slug: hide-and-sis-2025
+                    drama_eps: 2
+                    watched_seconds: 23
+                    created_at: '2025-08-23T04:04:45.074933+07:00'
+                    updated_at: '2025-08-23T04:04:45.074933+07:00'
+                  detail:
+                    aired: Jun 30, 2025 - Aug 12, 2025
+                    country: Thailand
+                    director:
+                    - Tle Tawan Charuchinda
+                    duration: 46 min.
+                    episodes: 14
+                    genres:
+                    - Thriller
+                    - Mystery
+                    - Drama
+                    image: https://convert.d-cdn.me/convert/aHR0cHM6Ly9hc3NldHMuZC1jZG4ubWUvaW1nLzIwMjUvMDcvODY3LTV2dm8zdzRmLmpwZw--/256x368/1.jpg
+                    language: null
+                    native_title: à¸™à¹‰à¸­à¸‡à¸ªà¸²à¸§à¸«à¸²à¸¢à¸™à¸°
+                    network:
+                    - GMM 25
+                    original_title: Hide & Sis
+                    slug: hide-and-sis-2025
+                    synopsis: 'Chatfah, adik bungsu keluarga Bupphachinda, baru saja
+                      menerima bagian terbesar dari warisan ayahnya dan akan segera
+                      menikah. Namun, Chatfah jatuh dari lantai tertinggi sebuah rumah
+                      liburan dan disaksikan oleh ketiga kakak perempuannya yang terkejut.
+                      Ketika jasadnya menghilang, ketiga saudara perempuannya—Baibua,
+                      Chomphu, dan Picha—menjadi tersangka atas hilangnya Chatfah.
+
+                      Kakak tertua, Baibua, tenang, bijaksana, dan selalu berkorban
+                      untuk keluarganya. Kakak kedua, Chomphu, adalah seorang model
+                      percaya diri yang pacarnya dicuri Chatfah dan ditunangkan. Kakak
+                      ketiga, Putpichaya, adalah seorang desainer perhiasan dan paling
+                      dekat dengan Chatfah. Ketiganya mencari Chatfah sementara tragedi
+                      lebih lanjut menimpa mereka setelah hilangnya adik bungsu mereka.
+
+                      Ketika tidak ada orang lain yang bisa dipercaya, ketiga saudari
+                      itu harus mencoba saling percaya. Mereka kembali ke rumah masa
+                      kecil mereka untuk mencari tahu siapa dalang hilangnya Chatfah,
+                      yang kemungkinan besar adalah salah satu dari mereka.'
+                    title: Hide And Sis (2025)
+                    writer: null
+                message: Histories retrieved successfully
+                status: success
+  /me/histories/{id}:
+    delete:
+      tags:
+      - History
+      summary: Delete
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      user_id:
+                        type: string
+                      drama_slug:
+                        type: string
+                      drama_eps:
+                        type: integer
+                      watched_seconds:
+                        type: integer
+                      created_at:
+                        type: string
+                      updated_at:
+                        type: string
+                    required:
+                    - id
+                    - user_id
+                    - drama_slug
+                    - drama_eps
+                    - watched_seconds
+                    - created_at
+                    - updated_at
+                  message:
+                    type: string
+                  status:
+                    type: string
+                required:
+                - data
+                - message
+                - status
+              example:
+                data:
+                  id: 082c4669-5c5a-4576-80c8-2d4d31d225fe
+                  user_id: 750ad818-05f5-496c-8a59-605b7953dc17
+                  drama_slug: hide-and-sis-2025
+                  drama_eps: 2
+                  watched_seconds: 23
+                  created_at: '2025-08-23T04:04:45.074933+07:00'
+                  updated_at: '2025-08-23T04:04:45.074933+07:00'
+                message: History deleted successfully
+                status: success
+    put:
+      tags:
+      - History
+      summary: Update
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      user_id:
+                        type: string
+                      drama_slug:
+                        type: string
+                      drama_eps:
+                        type: integer
+                      watched_seconds:
+                        type: integer
+                      created_at:
+                        type: string
+                      updated_at:
+                        type: string
+                    required:
+                    - id
+                    - user_id
+                    - drama_slug
+                    - drama_eps
+                    - watched_seconds
+                    - created_at
+                    - updated_at
+                  message:
+                    type: string
+                  status:
+                    type: string
+                required:
+                - data
+                - message
+                - status
+              example:
+                data:
+                  id: c46e2b67-c375-4d2b-92b7-7ca9080c2211
+                  user_id: 750ad818-05f5-496c-8a59-605b7953dc17
+                  drama_slug: hide-and-sis-2025
+                  drama_eps: 2
+                  watched_seconds: 222
+                  created_at: '2025-08-23T04:06:58.118721+07:00'
+                  updated_at: '2025-08-23T04:06:58.118721+07:00'
+                message: History updated successfully
+                status: success
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                eps:
+                  type: integer
+                time_watched:
+                  type: integer
+              required:
+              - eps
+              - time_watched
+            example:
+              eps: 4
+              time_watched: 222
+    parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: string
+      description: 'Path parameter: id'
+  /me:
+    get:
+      tags:
+      - Profile
+      summary: Me
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      username:
+                        type: string
+                      email:
+                        type: string
+                      img_url:
+                        type: string
+                      created_at:
+                        type: string
+                      updated_at:
+                        type: string
+                    required:
+                    - id
+                    - username
+                    - email
+                    - img_url
+                    - created_at
+                    - updated_at
+                  message:
+                    type: string
+                  status:
+                    type: string
+                required:
+                - data
+                - message
+                - status
+              example:
+                data:
+                  id: 750ad818-05f5-496c-8a59-605b7953dc17
+                  username: admin
+                  email: admin@admin.com
+                  img_url: https://imagedelivery.net/xE-VtsYZUS2Y8MtLMcbXAg/9cb9505a/orig
+                  created_at: '2025-08-23T03:15:44.885703+07:00'
+                  updated_at: '2025-08-23T03:15:44.885703+07:00'
+                message: User profile retrieved successfully
+                status: success
+    put:
+      tags:
+      - Profile
+      summary: Update
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      username:
+                        type: string
+                      email:
+                        type: string
+                      img_url:
+                        type: string
+                      created_at:
+                        type: string
+                      updated_at:
+                        type: string
+                    required:
+                    - id
+                    - username
+                    - email
+                    - img_url
+                    - created_at
+                    - updated_at
+                  message:
+                    type: string
+                  status:
+                    type: string
+                required:
+                - data
+                - message
+                - status
+              example:
+                data:
+                  id: 750ad818-05f5-496c-8a59-605b7953dc17
+                  username: updateadmin
+                  email: admin@admin.com
+                  img_url: https://imagedelivery.net/xE-VtsYZUS2Y8MtLMcbXAg/9cb9505a/orig
+                  created_at: '2025-08-23T03:15:44.885703+07:00'
+                  updated_at: '2025-08-23T04:18:06.9768596+07:00'
+                message: User profile updated successfully
+                status: success
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+                username:
+                  type: string
+              required:
+              - email
+              - password
+              - username
+            example:
+              email: admin@admin.com
+              password: admin123
+              username: updateadmin
+  /me/avatar:
+    put:
+      tags:
+      - Profile
+      summary: Update Avatar
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      username:
+                        type: string
+                      email:
+                        type: string
+                      img_url:
+                        type: string
+                      created_at:
+                        type: string
+                      updated_at:
+                        type: string
+                    required:
+                    - id
+                    - username
+                    - email
+                    - img_url
+                    - created_at
+                    - updated_at
+                  message:
+                    type: string
+                  status:
+                    type: string
+                required:
+                - data
+                - message
+                - status
+              example:
+                data:
+                  id: 750ad818-05f5-496c-8a59-605b7953dc17
+                  username: updateadmin
+                  email: admin@admin.com
+                  img_url: /uploads/f9d19c04-77f8-49a0-af70-430536ffb15c.jpg
+                  created_at: '2025-08-23T03:15:44.885703+07:00'
+                  updated_at: '2025-08-23T04:19:59.332322239+07:00'
+                message: Avatar updated successfully
+                status: success
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+              required:
+              - file
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+security:
+- bearerAuth: []
